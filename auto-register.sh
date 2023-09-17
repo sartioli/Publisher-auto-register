@@ -56,7 +56,7 @@ PUB_CREATE=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publ
 # Verify that the Publisher creation succeeded
 STATUS=$(echo ${PUB_CREATE} | jq -r '.status')
 
-if [ "$STATUS" =! "success" ] ; then
+if [ "$STATUS" != "success" ] ; then
   echo ${PUB_CREATE}
   exit 1
 fi
@@ -68,8 +68,9 @@ PUB_TOKEN=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publi
 ## Verify that the Publisher Token has been successfully retrieved, if not, abort
 STATUS=$(echo ${PUB_CREATE} | jq -r '.status')
 
-if [ "$STATUS" == "error" ] ; then
-	  exit 1
+if [ "$STATUS" != "success" ] ; then
+  echo ${PUB_TOKEN}
+  exit 1
 fi
 
 ## Grab the Publisher Token from the API response and initiate Publisher registration
