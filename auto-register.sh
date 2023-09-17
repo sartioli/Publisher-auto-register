@@ -51,19 +51,19 @@ if [ -z "$TENANT_URL" ] || [ -z "$API_TOKEN" ] || [ -z "$PUB_NAME" ] ; then
 fi
 
 ## Perform the API call to create a Publisher object using the provided parameters
-PUB_CREATE=$(curl -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers?silent=0" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -H 'Content-Type: application/json' -d '{"name": "'"${PUB_NAME}"'","lbrokerconnect": false,"publisher_upgrade_profiles_id": 1}' | jq)
+PUB_CREATE=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers?silent=0" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -H 'Content-Type: application/json' -d '{"name": "'"${PUB_NAME}"'","lbrokerconnect": false,"publisher_upgrade_profiles_id": 1}' | jq)
 
 # Verify that the Publisher creation succeeded
 STATUS=$(echo ${PUB_CREATE} | jq -r '.status')
 
-if [ "$STATUS" == "error" ] ; then
+if [ "$STATUS" =1 "success" ] ; then
   echo ${PUB_CREATE}
   exit 1
 fi
 
 ## Grab the Publisher ID from the API response and initiate a Publisher Token retrieval
 PUB_ID=$(echo ${PUB_CREATE} | jq '.data.id')
-PUB_TOKEN=$(curl -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers/${PUB_ID}/registration_token" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -d '')
+PUB_TOKEN=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers/${PUB_ID}/registration_token" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -d '')
 
 ## Verify that the Publisher Token has been successfully retrieved, if not, abort
 STATUS=$(echo ${PUB_CREATE} | jq -r '.status')
