@@ -61,6 +61,9 @@ if [ "$STATUS" != "success" ] ; then
   exit 1
 fi
 
+# Write the successful API response on a file
+echo ${PUB_CREATE} > publisherinfo
+
 ## Grab the Publisher ID from the API response and initiate a Publisher Token retrieval
 PUB_ID=$(echo ${PUB_CREATE} | jq '.data.id')
 PUB_TOKEN=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers/${PUB_ID}/registration_token" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -d '')
