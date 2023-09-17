@@ -56,7 +56,7 @@ PUB_CREATE=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publ
 # Verify that the Publisher creation succeeded
 STATUS=$(echo ${PUB_CREATE} | jq -r '.status')
 
-if [ "$STATUS" =1 "success" ] ; then
+if [ "$STATUS" =! "success" ] ; then
   echo ${PUB_CREATE}
   exit 1
 fi
