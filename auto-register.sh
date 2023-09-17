@@ -75,6 +75,4 @@ fi
 
 ## Grab the Publisher Token from the API response and initiate Publisher registration
 PUB_TOKEN=$(echo ${PUB_TOKEN} | jq '.data.token')
-echo ${PUB_TOKEN}
-
 sudo ./npa_publisher_wizard -token ${PUB_TOKEN}
