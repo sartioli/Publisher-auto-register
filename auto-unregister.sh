@@ -1,7 +1,7 @@
 #!/bin/bash
-  
-PUB_INFO=$(<publisherinfo)
 
+# Read the registration info file and extracts the Publisher ID
+PUB_INFO=$(<publisherinfo)
 PUB_ID=$(echo ${PUB_INFO} | jq -r '.data.id')
 
 ## Set the parameters flags of the script
@@ -29,7 +29,7 @@ if [ -z "$TENANT_URL" ] || [ -z "$API_TOKEN" ] ; then
 fi
 
 # Invoke the API to delete the Publisher
-PUB_DELETE=$(curl -s -X 'DELETE' "https://${TENANT_URL}/api/v2/infrastructure/publishers/207" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}")
+PUB_DELETE=$(curl -s -X 'DELETE' "https://${TENANT_URL}/api/v2/infrastructure/publishers/${PUB_ID}" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}")
 
 # Verify that the Publisher deletion succeeded
 STATUS=$(echo ${PUB_DELETE} | jq -r '.status')
