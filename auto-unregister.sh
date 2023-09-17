@@ -28,9 +28,10 @@ if [ -z "$TENANT_URL" ] || [ -z "$API_TOKEN" ] ; then
   exit 1
 fi
 
+# Invoke the API to delete the Publisher
 PUB_DELETE=$(curl -s -X 'DELETE' "https://${TENANT_URL}/api/v2/infrastructure/publishers/207" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}")
 
-# Verify that the Publisher creation succeeded
+# Verify that the Publisher deletion succeeded
 STATUS=$(echo ${PUB_DELETE} | jq -r '.status')
 
 if [ "$STATUS" != "success" ] ; then
@@ -38,6 +39,6 @@ echo ${PUB_DELETE}
 exit 1
 fi
 
+# Remove activation files on the Publisher and restart the docker
 rm -rf resources/
-
 docker restart -t 0 $(docker ps -a -q)
