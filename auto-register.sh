@@ -25,7 +25,7 @@ if [ "" = "$PKG_OK" ]; then
 fi
 
 ## Set the parameters flags of the script
-while getopts 'u:a:n:' option; do
+while getopts 'u:a:n:t:' option; do
   case $option in
     u)
       TENANT_URL="$OPTARG"
