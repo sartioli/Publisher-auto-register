@@ -59,8 +59,6 @@ then
   IFS=, read -a arr <<<"${_PUB_TAG}"
   printf -v tags ',{"tag_name": "%s"}' "${arr[@]}"
   PUB_TAG="${tags:1}"
-
-  echo ${PUB_TAG}
   TAGS=',"tags": [ '${PUB_TAG}' ]'
 fi
 
