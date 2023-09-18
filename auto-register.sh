@@ -62,7 +62,6 @@ then
 
   echo ${PUB_TAG}
   TAGS=',"tags": [ '${PUB_TAG}' ]'
-echo ${TAGS}
 fi
 
 ## Perform the API call to create a Publisher object using the provided parameters
