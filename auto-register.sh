@@ -50,8 +50,20 @@ if [ -z "$TENANT_URL" ] || [ -z "$API_TOKEN" ] || [ -z "$PUB_NAME" ] ; then
   exit 1
 fi
 
+# Verify if tags were provided and in case create the tag list in the correct form for the json API call
+if [ ! -z "$_PUB_TAG" ]
+then
+  IFS=, read -a arr <<<"${_PUB_TAG}"
+  printf -v tags ',{"tag_name": "%s"}' "${arr[@]}"
+  PUB_TAG="${tags:1}"
+
+  echo ${PUB_TAG}
+  TAGS=',"tags": [ '${PUB_TAG}' ]'
+echo ${TAGS}
+fi
+
 ## Perform the API call to create a Publisher object using the provided parameters
-PUB_CREATE=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers?silent=0" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -H 'Content-Type: application/json' -d '{"name": "'"${PUB_NAME}"'","lbrokerconnect": false,"publisher_upgrade_profiles_id": 1}' | jq)
+PUB_CREATE=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers?silent=0" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -H 'Content-Type: application/json' -d '{"name": "'"${PUB_NAME}"'","lbrokerconnect": false'"${TAGS}"',"publisher_upgrade_profiles_id": 1}' | jq)
 
 # Verify that the Publisher creation succeeded
 STATUS=$(echo ${PUB_CREATE} | jq -r '.status')
