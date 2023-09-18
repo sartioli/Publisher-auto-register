@@ -36,6 +36,9 @@ while getopts 'u:a:n:' option; do
     n)
       PUB_NAME="$OPTARG"
       ;;
+    t)
+      _PUB_TAG="$OPTARG"
+      ;;
     ?)
       echo "Usage: $0 [-u tenant_url] [-a API_token] [-n Publisher_name] [-t Publisher_tag]" >&2
       exit 1
