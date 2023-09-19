@@ -74,7 +74,7 @@ fi
 echo "Trying to create the Publisher object in the tenant..."
 echo ""
 ## Perform the API call to create a Publisher object using the provided parameters
-PUB_CREATE=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers?silent=0" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -H 'Content-Type: application/json' -d '{"name": "'"${PUB_NAME}"'","lbrokerconnect": false'"${TAGS}"',"publisher_upgrade_profiles_id": ${PUB_UPGRADE}}' | jq)
+PUB_CREATE=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers?silent=0" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -H 'Content-Type: application/json' -d '{"name": "'"${PUB_NAME}"'","lbrokerconnect": false'"${TAGS}"',"publisher_upgrade_profiles_id": '${PUB_UPGRADE}'}' | jq)
 
 # Verify that the Publisher creation succeeded
 STATUS=$(echo ${PUB_CREATE} | jq -r '.status')
