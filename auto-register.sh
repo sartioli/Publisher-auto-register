@@ -5,7 +5,9 @@ REQUIRED_PKG="jq"
 
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
 
+echo ""
 echo Checking for $REQUIRED_PKG: $PKG_OK
+echo ""
 
 if [ "" = "$PKG_OK" ]; then
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
@@ -18,6 +20,7 @@ REQUIRED_PKG="curl"
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
 
 echo Checking for $REQUIRED_PKG: $PKG_OK
+echo ""
 
 if [ "" = "$PKG_OK" ]; then
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
@@ -25,7 +28,7 @@ if [ "" = "$PKG_OK" ]; then
 fi
 
 ## Set the parameters flags of the script
-while getopts 'u:a:n:t:up:' option; do
+while getopts 'u:a:n:t:g:' option; do
   case $option in
     u)
       TENANT_URL="$OPTARG"
@@ -39,11 +42,11 @@ while getopts 'u:a:n:t:up:' option; do
     t)
       _PUB_TAG="$OPTARG"
       ;;
-    up)
+    g)
       PUB_UPGRADE=$OPTARG
       ;;
      ?)
-      echo "Usage: $0 [-u tenant_url] [-a API_token] [-n Publisher_name] [-t Publisher_tag]" >&2
+      echo "Usage: $0 [-u tenant_url] [-a API_token] [-n Publisher_name] [-t Publisher_tag] [-g UpgradeProfile]" >&2
       exit 1
       ;;
   esac
@@ -71,6 +74,16 @@ then
   PUB_UPGRADE=1
 fi
 
+# Verify if the upgrade profile ID exists in the tenant
+UPGRADE_PROFILE=$(curl -s -X 'GET' "https://${TENANT_URL}/api/v2/infrastructure/publisherupgradeprofiles/${PUB_UPGRADE}" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}")
+STATUS=$(echo ${UPGRADE_PROFILE} | jq -r '.status')
+if [ "$STATUS" != "success" ] ; then
+  echo "The specified Upgrade Profile ID doesn't exists in the tenant ! Defaulting to the default !"
+  echo ""
+  PUB_UPGRADE=1
+fi
+
+
 echo "Trying to create the Publisher object in the tenant..."
 echo ""
 ## Perform the API call to create a Publisher object using the provided parameters
@@ -90,6 +103,7 @@ echo ""
 
 echo "Trying to retrieve the Publisher Token..."
 echo ""
+
 ## Grab the Publisher ID from the API response and initiate a Publisher Token retrieval
 PUB_ID=$(echo ${PUB_CREATE} | jq '.data.id')
 PUB_TOKEN=$(curl -s -X 'POST' "https://${TENANT_URL}/api/v2/infrastructure/publishers/${PUB_ID}/registration_token" -H 'accept: application/json' -H "Netskope-Api-Token: ${API_TOKEN}" -d '')
@@ -103,9 +117,11 @@ if [ "$STATUS" != "success" ] ; then
   exit 1
 fi
 
-echo "Publisher token correctly retireved. Registering the ublisher now..."
+echo "Publisher token correctly retireved. Registering the Publisher now..."
 echo ""
 
 ## Grab the Publisher Token from the API response and initiate Publisher registration
 PUB_TOKEN=$(echo ${PUB_TOKEN} | jq '.data.token')
 sudo ./npa_publisher_wizard -token ${PUB_TOKEN}
+echo ""
+echo "Publisher ${PUB_NAME} correctly registered"
