@@ -8,6 +8,16 @@ sudo ./auto-register.sh -u <tenant_FQDN> -a <APIv2_Token> -n <Publisher_Name> [-
 ```
 where the parameters **-u**, **-a** and **-n** are mandatory.
 
+The parameters are:
+* -u : Tenant FQDN, for instance ***mytenant.goskope.com***, or ***mytenant.eu.goskope.com***
+* -a : APIv2 Token : APIv2 token that was previously created on the tenant. The APIv2 token used for both the scripts requires the following endpoints:
+*   /api/v2/infrastructure/publisherupgradeprofiles "Read"
+*   /api/v2/infrastructure/publishers	"Read + Write"
+* -n : Publisher Name, for instance ***Publisher-AWS-1***
+* -t : Comma-separated list of Publisher Tags, for instance ***tag1,tag-2,tag--3*** with no special characters or spaces
+* -g : Publisher Upgrade Profile "external_id", the "external_id" of a valid Publisher Upgrade Profile. If not provided, or it not-existing, the registration defaults to the Default Upgrade Profile
+
+
 The script "auto-unregister.sh" deletes the Publisher in the tenant (provided there are no NPA Applications directly assigned to it) and deletes the registration configuration on the Publisher machine (unregistering it), and it can be used in the following way:
 ```
 sudo ./auto-unregister.sh -u <tenant_FQDN> -a <APIv2_Token>
