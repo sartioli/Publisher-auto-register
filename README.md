@@ -1,12 +1,12 @@
 # Publisher-auto-register
 
-This repository contains 2 script that can be used in conjunction to automatically create and registr a Publisher and unregister and delete a Publisher directly from the publisher machine.
+This repository contains 2 scripts that can be used in conjunction to automatically create and registr a Publisher and unregister and delete a Publisher directly from the publisher machine.
 
-The script "aut-register.sh" creates the Publisher object in the tenant, retrieves the Publisher Token and register the Publisher, and it can be used in the following way:
+The script "auto-register.sh" creates the Publisher object in the tenant, retrieves the Publisher Token and register the Publisher, and it can be used in the following way:
 ```
 sudo ./auto-register.sh -u <tenant_FQDN> -a <APIv2_Token> -n <Publisher_Name> [-t <Publisher_Tags_comma_separated>] [-g <publisher_upgrade_profile_external_id>
 ```
-where the parameters **-u**, **-a** and **-n** are mandatory.
+where the parameters ***-u***, ***-a*** and ***-n*** are mandatory.
 
 The parameters are:
 * -u : Tenant FQDN, for instance ***mytenant.goskope.com***, or ***mytenant.eu.goskope.com***
@@ -22,7 +22,7 @@ The script "auto-unregister.sh" deletes the Publisher in the tenant (provided th
 ```
 sudo ./auto-unregister.sh -u <tenant_FQDN> -a <APIv2_Token>
 ```
-where the parameters **-u**, **-a** are mandatory.
+where the parameters ***-u***, ***-a*** are mandatory.
 
 The scripts can be downloaded directly from the Publisher using:
 ```
