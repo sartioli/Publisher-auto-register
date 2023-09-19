@@ -40,7 +40,7 @@ while getopts 'u:a:n:t:up:' option; do
       _PUB_TAG="$OPTARG"
       ;;
     up)
-      PUB_UPGRADE=$OPTARG"
+      PUB_UPGRADE=$OPTARG
       ;;
      ?)
       echo "Usage: $0 [-u tenant_url] [-a API_token] [-n Publisher_name] [-t Publisher_tag]" >&2
