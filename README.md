@@ -20,5 +20,6 @@ curl -s https://raw.githubusercontent.com/sartioli/Publisher-auto-register/main/
 curl -s https://raw.githubusercontent.com/sartioli/Publisher-auto-register/main/auto-unregister.sh --output ./auto-unregister.sh
 chmod 777 ./auto-register.sh
 chmod 777 ./auto-unregister.sh
+
 ```
 The scripts must be downloaded and executed from the home directory of the Publisher (the same directory where the folder "resources" is located), the same path used after exiting the "publisher_wizard" upon login. 
