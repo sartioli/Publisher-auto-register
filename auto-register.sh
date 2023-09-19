@@ -85,10 +85,10 @@ if [ "$STATUS" != "success" ] ; then
   exit 1
 fi
 
-echo "Publisher "${PUB_NAME}" created successfully
+echo "Publisher "${PUB_NAME}" created successfully"
 echo ""
 
-echo "Trying to retrieve the Publisher Token...:
+echo "Trying to retrieve the Publisher Token..."
 echo ""
 ## Grab the Publisher ID from the API response and initiate a Publisher Token retrieval
 PUB_ID=$(echo ${PUB_CREATE} | jq '.data.id')
@@ -104,6 +104,7 @@ if [ "$STATUS" != "success" ] ; then
 fi
 
 echo "Publisher token correctly retireved. Registering the ublisher now..."
+echo ""
 
 ## Grab the Publisher Token from the API response and initiate Publisher registration
 PUB_TOKEN=$(echo ${PUB_TOKEN} | jq '.data.token')
