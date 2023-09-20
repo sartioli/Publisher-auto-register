@@ -2,9 +2,9 @@
 
 # Check if the publisherid file exists under resources and if yes extract the Publisher common_name
 if [ -f "./resources/publisherid" ]; then
-  PUB_CN=$(<./resources/publisherid)
+  PUB_CN=$(</home/ubuntu/resources/publisherid)
 else
-  echo "The file ./resources/publisherid does not exist. Please check the path and if the Publisher is registered"
+  echo "The file /home/ubuntu/resources/publisherid does not exist. Please check the path and if the Publisher is registered"
   exit 1
 fi
 
@@ -59,7 +59,7 @@ echo ""
 # Remove activation files on the Publisher and restart the docker
 echo "Removing publisher configuration files on the machine and restart docker container.."
 echo ""
-rm -rf resources/
+rm -rf /home/ubuntu/resources/
 docker restart -t 0 $(docker ps -a -q)
 echo ""
 echo "Publisher data removed. The Publisher is no longer registered"
