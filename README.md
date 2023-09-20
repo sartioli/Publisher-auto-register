@@ -35,4 +35,4 @@ chmod 777 ./auto-register.sh
 chmod 777 ./auto-unregister.sh
 
 ```
-The scripts must be executed with sudo privileges and for the Publishers resources it uses the default absolute path /hone/ubuntu.
+The scripts must be executed with sudo privileges and for the Publishers resources they look for the default absolute path /hone/ubuntu.
