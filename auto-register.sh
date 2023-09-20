@@ -122,6 +122,6 @@ echo ""
 
 ## Grab the Publisher Token from the API response and initiate Publisher registration
 PUB_TOKEN=$(echo ${PUB_TOKEN} | jq '.data.token')
-sudo ./npa_publisher_wizard -token ${PUB_TOKEN}
+sudo /home/ubuntu/npa_publisher_wizard -token ${PUB_TOKEN}
 echo ""
 echo "Publisher ${PUB_NAME} correctly registered"
